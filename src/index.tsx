@@ -6,7 +6,19 @@ import reportWebVitals from './reportWebVitals';
 import { Amplify } from 'aws-amplify';
 import config from './aws-exports';
 
-Amplify.configure(config);
+const isLocalhost = !!(window.location.hostname === "localhost");
+
+const [localRedirectSignIn, prodRedirectSignIn] = config.oauth.redirectSignIn.split(',');
+const [localRedirectSignOut, prodRedirectSignOut] = config.oauth.redirectSignOut.split(',');
+
+Amplify.configure({
+  ...config,
+  oauth: {
+    ...config.oauth,
+    redirectSignIn: isLocalhost ? localRedirectSignIn : prodRedirectSignIn,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : prodRedirectSignOut,
+  }
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
