@@ -1,26 +1,32 @@
 import React from 'react';
 import logo from './logo.svg';
+import "@aws-amplify/ui-react/styles.css";
+import {
+  Authenticator,
+  Button,
+  Heading,
+  Image,
+  View,
+  Card,
+} from "@aws-amplify/ui-react";
 import './App.css';
 
-function App() {
+//@ts-ignore
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Authenticator>
+      {//@ts-ignore
+      ({ signOut, user }: { signOut: (data: any) => void, user: any }) => (
+        <View className="App">
+          <Card>
+            <Image src={logo} className="App-logo" alt="logo" />
+            <Heading level={1}>We now have Auth!</Heading>
+          </Card>
+          <Button onClick={signOut}>Sign Out</Button>
+        </View>
+      )}
+    </Authenticator>
   );
 }
 
-export default App;
+// export default withAuthenticator(App);
